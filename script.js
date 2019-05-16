@@ -9,21 +9,70 @@ document.addEventListener('DOMContentLoaded', function () {
         2: ["America/Los_Angeles", "San Francisco"],
     };
 
-    // Attempt to fetch times data from cookie, write back
+    // Attempt to fetch times data from cookie
     var cookieData = Cookies.getJSON('times');
     if (cookieData) {
         times = cookieData;
     }
-    Cookies.set('times', times, {expires: 3650});
+
+    // Save data back to cookie
+    function saveTimes() {
+        Cookies.set('times', times, {expires: 3650});
+    }
+
+    saveTimes();
 
     // Create a new section
     function createSection(id, data) {
         var section = document.createElement("section");
-        section.setAttribute("id", "times-" + id);
+        section.setAttribute("id", "times-" + id.toString());
         section.setAttribute("data-tz", data[0]);
         section.setAttribute("data-label", data[1]);
         document.querySelector("main").appendChild(section);
         return section;
+    }
+
+    // Edit a section
+    function editSection(id) {
+        // Get old data
+        var data = times[id];
+
+        // Get new label
+        var label = prompt("New label for card", data[1]);
+        if (label == null || label == "") return;
+
+        // Get new tz
+        var tz = prompt("New timezone for card", data[0]);
+        if (tz == null || tz == "") return;
+
+        // Get elm
+        var elm = document.getElementById("times-" + id.toString());
+
+        // Save data to elm
+        elm.setAttribute("data-tz", tz);
+        elm.setAttribute("data-label", label);
+
+        // Save to times & cookie
+        times[id] = [tz, label];
+        saveTimes();
+    }
+
+    // Delete a section
+    function deleteSection(id) {
+        // Get old data
+        var data = times[id];
+
+        // Confirm removal
+        var conf = confirm("Are you sure you want to remove '" + data[1] + "' with timezone '" + data[0] + "'?");
+        if (conf !== true) return;
+
+        // Delete elm
+        var elm = document.getElementById("times-" + id.toString());
+        elm.parentElement.removeChild(elm);
+
+        // Delete data & save
+        delete times[id];
+        saveTimes();
     }
 
     // Build initial sections from data
@@ -44,6 +93,26 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!div) {
                 div = document.createElement("div");
                 elm.appendChild(div);
+            }
+            var a1 = div.querySelector("a:nth-child(1)");
+            if (!a1) {
+                a1 = document.createElement("a");
+                a1.innerHTML = "&#9998;"; // pencil
+                a1.onclick = function () {
+                    var id = this.parentElement.parentElement.id;
+                    editSection(parseInt(id.replace(/^(times-)/, "")));
+                };
+                div.appendChild(a1);
+            }
+            var a2 = div.querySelector("a:nth-child(2)");
+            if (!a2) {
+                a2 = document.createElement("a");
+                a2.innerHTML = "&#10007;"; // cross
+                a2.onclick = function () {
+                    var id = this.parentElement.parentElement.id;
+                    deleteSection(parseInt(id.replace(/^(times-)/, "")));
+                };
+                div.appendChild(a2);
             }
             var h1 = elm.querySelector("h1");
             if (!h1) {
