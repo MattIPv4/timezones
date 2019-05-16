@@ -5,21 +5,31 @@ html, body {
 }
 
 body {
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+}
+
+body, main {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    font-size: 16px;
-    font-family: 'Nunito', sans-serif;
 }
 
 section {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+
     background: #eee;
+    box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.5);
+
     padding: 35px 15px 5px 15px;
     margin: 10px 0;
     border-radius: 10px;
-    box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.5);
+
     opacity: 0;
     transition: color .5s;
 }
@@ -39,6 +49,15 @@ section.awake {
     background: linear-gradient(185deg, #FFFFDE, #6DD5FA, #2980B9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     color: #454540;
     color: rgba(30, 30, 20, 0.8);
+    opacity: 1;
+}
+
+section.error {
+    background: #ED213A; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #93291E, #ED213A); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #93291E, #ED213A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: #efefff;
+    color: rgba(245, 245, 255, 0.8);
     opacity: 1;
 }
 
