@@ -75,6 +75,33 @@ document.addEventListener('DOMContentLoaded', function () {
         saveTimes();
     }
 
+    // Create new section from user
+    function newSection() {
+        // Get new label
+        var label = prompt("New label for card");
+        if (label == null || label == "") return;
+
+        // Get new tz
+        var tz = prompt("New timezone for card");
+        if (tz == null || tz == "") return;
+
+        // Get the new id
+        var id = Math.max.apply(null, Object.keys(times)) + 1;
+
+        // Save to times & cookie
+        times[id] = [tz, label];
+        saveTimes();
+
+        // Create the new elm
+        createSection(id, [tz, label]);
+    }
+
+    // Create new button
+    var a = document.createElement("a");
+    a.innerHTML = "&#10011;"; // plus
+    a.onclick = newSection;
+    document.body.appendChild(a);
+
     // Build initial sections from data
     for (var key in times) {
         if (!times.hasOwnProperty(key)) continue;

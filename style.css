@@ -1,7 +1,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    background: #bdbdbd;
+    background: #d9d9d9;
 }
 
 body {
@@ -10,11 +10,45 @@ body {
 }
 
 body, main {
+    position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+}
+
+a {
+    cursor: pointer;
+    color: transparent;
+    text-shadow: 0 0 0 #fff;
+    transition: all .3s;
+}
+
+a:hover {
+    text-shadow: 0 0 0 #aad;
+}
+
+body > a {
+    position: fixed;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+
+    padding: 5px 15px;
+    background: #444;
+    background: rgba(40, 40, 40, 0.6);
+    border-bottom-left-radius: 10px;
+
+    font-size: 1.5em;
+    font-weight: 100;
+
+    opacity: 0;
+    transition: opacity .5s;
+}
+
+body:hover > a {
+    opacity: 1;
 }
 
 section {
@@ -83,13 +117,9 @@ section div a {
     top: -1em;
     opacity: 0;
 
-    cursor: pointer;
     font-size: 1.2em;
     font-weight: 100;
     margin: 0 8px;
-    color: transparent;
-    text-shadow: 0 0 0 #fff;
-    transition: all .3s;
 }
 
 section:hover div a {
